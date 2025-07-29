@@ -24,6 +24,11 @@ export class DishesController {
     return this.dishesService.findAll();
   }
 
+  @Get(':id')
+  findOne(@Param('id', ParseIntPipe) id: number): Dish {
+    return this.dishesService.findOne(id);
+  }
+
   @Post()
   create(@Body() createDishDto: CreateDishDTO): Dish {
     return this.dishesService.create(createDishDto);
