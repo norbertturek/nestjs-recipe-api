@@ -1,0 +1,43 @@
+# GET http://localhost:3000
+
+### Create (Post)
+# POST http://localhost:3000
+# Content-Type: application/json
+
+# {
+#     "name": "Marcel"
+# }
+
+
+## Update (Put)
+# PUT http://localhost:3000
+# Content-Type: application/json
+
+# {
+#     "name": "Małgosia!"
+# }
+        
+# DELETE http://localhost:3000/1
+
+# GET http://localhost:3000/dishes
+
+# POST http://localhost:3000/dishes
+# Content-Type: application/json
+
+# {
+#     "name": "PASTAAA",
+#     "description": "PASTAAA with cheeese",
+#     "servings": 3
+# }
+
+# PUT http://localhost:3000/dishes
+# Content-Type: application/json
+
+# {
+#     "id": 23,
+#     "servings": 2,
+#     "name": "new PASTAAA"
+# }
+
+DELETE http://localhost:3000/dishes/1
+
