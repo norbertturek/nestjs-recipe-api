@@ -33,7 +33,12 @@ export class DishesService {
   }
 
   findAll(): readonly Dish[] {
-    return this.dishes;
+    return this.dishes.map((d: Dish) => {
+      return {
+        ...d,
+        products: this.productService.getProductsForDish(d.id),
+      };
+    });
   }
 
   findOne(dishId: number): Dish {

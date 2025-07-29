@@ -1,4 +1,4 @@
-import { Product } from "src/products/Product";
+import { Product } from "../products/Product";
 
 export interface Dish {
   id: number;

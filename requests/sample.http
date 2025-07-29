@@ -21,7 +21,7 @@
 
 # GET http://localhost:3000/dishes
 
-GET http://localhost:3000/dishes/1
+# GET http://localhost:3000/dishes/1
 
 # POST http://localhost:3000/dishes
 # Content-Type: application/json
