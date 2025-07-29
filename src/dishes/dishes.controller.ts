@@ -1,70 +1,42 @@
 import {
   Body,
   Controller,
-  Get,
-  Put,
-  Post,
   Delete,
-  Param,
-  NotFoundException,
+  Get,
   HttpException,
   HttpStatus,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
 } from '@nestjs/common';
 import { Dish } from './Dish';
-import { UpdateDishDTO, CreateDishDTO } from './dto/DishDTO';
+import { DishesService } from './dishes.service';
+import { CreateDishDTO, UpdateDishDTO } from './dto/DishDTO';
 
 @Controller('dishes')
 export class DishesController {
-  trackId = 1;
-  dishes: Dish[] = [
-    {
-      id: this.trackId++,
-      name: 'Spaghetti',
-      description: 'Spaghetti with tomato sauce',
-      servings: 4,
-    },
-  ];
+  // private dishesService = new DishesService();
+  constructor(private readonly dishesService: DishesService) {}
 
   @Get()
-  readAll(): Dish[] {
-    return this.dishes;
+  findAll(): readonly Dish[] {
+    return this.dishesService.findAll();
   }
 
   @Post()
-  createOne(@Body() dish: CreateDishDTO) {
-    const newDish = { id: this.trackId++, ...dish };
-    this.dishes.push(newDish);
-    return newDish;
+  create(@Body() createDishDto: CreateDishDTO): Dish {
+    return this.dishesService.create(createDishDto);
   }
 
   @Put()
-  updateOne(@Body() dish: UpdateDishDTO) {
-    const dishToUpdate = this.dishes.find(
-      (d: Dish) => Number(d.id) === Number(dish.id),
-    );
-
-    if (!dishToUpdate) {
-      //   throw new Error('Dish with id ' + dish.id + ' not found');
-      throw new NotFoundException('Dish with id ' + dish.id + ' not found');
-    }
-
-    Object.assign(dishToUpdate, dish);
-    return dishToUpdate;
+  update(@Body() updateDishDto: UpdateDishDTO): Dish {
+    return this.dishesService.update(updateDishDto);
   }
 
   @Delete(':id')
-  deleteOne(@Param('id') dishId: number) {
-    const dishExists = this.dishes.some((dish) => dish.id === Number(dishId));
-
-    if (!dishExists) {
-      throw new NotFoundException('Dish with id ' + dishId + ' not found');
-    }
-
-    this.dishes = this.dishes.filter(
-      (dish: Dish) => dish.id !== Number(dishId),
-    );
-
-    return { message: `Dish with id ${dishId} deleted` };
+  remove(@Param('id', ParseIntPipe) id: number): { message: string } {
+    return this.dishesService.remove(id);
   }
 
   @Get('/exception')

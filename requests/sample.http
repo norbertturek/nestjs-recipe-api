@@ -1,6 +1,6 @@
 # GET http://localhost:3000
 
-### Create (Post)
+# ### Create (Post)
 # POST http://localhost:3000
 # Content-Type: application/json
 
@@ -10,7 +10,7 @@
 
 
 ## Update (Put)
-# PUT http://localhost:3000
+# PUT http://localhost:3000/dishes  
 # Content-Type: application/json
 
 # {
@@ -34,10 +34,10 @@
 # Content-Type: application/json
 
 # {
-#     "id": 23,
+#     "id": 3,
 #     "servings": 2,
 #     "name": "new PASTAAA"
 # }
 
-DELETE http://localhost:3000/dishes/1
-
+# DELETE http://localhost:3000/dishes/1
+# 
