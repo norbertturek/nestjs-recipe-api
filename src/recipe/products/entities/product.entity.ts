@@ -1,4 +1,11 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Dish } from 'src/recipe/dishes/entities/dish.entity';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Product extends BaseEntity {
@@ -14,6 +21,6 @@ export class Product extends BaseEntity {
   @Column({ type: 'decimal' })
   amount: number;
 
-  @Column({ type: 'int' })
-  dishId: number;
+  @ManyToOne(() => Dish, (dish) => dish.products, { cascade: true })
+  dish: Dish;
 }

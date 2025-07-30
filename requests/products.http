@@ -1,13 +1,13 @@
 # C
-# POST http://localhost:3000/products
-# Content-Type: application/json
+POST http://localhost:3000/products
+Content-Type: application/json
 
-# {
-#     "name": "Product 1",
-#     "unit": "kg",   
-#     "amount": 1,
-#     "dishId": 1
-# }
+{
+    "name": "Product 1",
+    "unit": "kg",   
+    "amount": 1,
+    "dishId": 2
+}
 
 # R
 # GET http://localhost:3000/products
