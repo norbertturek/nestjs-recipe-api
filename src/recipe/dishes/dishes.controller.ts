@@ -10,37 +10,36 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { Dish } from './Dish';
 import { DishesService } from './dishes.service';
-import { CreateDishDTO, UpdateDishDTO } from './dto/DishDTO';
+import { CreateDishDto } from './dto/create-dish.dto';
+import { UpdateDishDto } from './dto/update-dish.dto';
 
 @Controller('dishes')
 export class DishesController {
-  // private dishesService = new DishesService();
   constructor(private readonly dishesService: DishesService) {}
 
   @Get()
-  findAll(): readonly Dish[] {
+  findAll() {
     return this.dishesService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number): Dish {
+  findOne(@Param('id', ParseIntPipe) id: number) {
     return this.dishesService.findOne(id);
   }
 
   @Post()
-  create(@Body() createDishDto: CreateDishDTO): Dish {
+  create(@Body() createDishDto: CreateDishDto) {
     return this.dishesService.create(createDishDto);
   }
 
   @Put()
-  update(@Body() updateDishDto: UpdateDishDTO): Dish {
+  update(@Body() updateDishDto: UpdateDishDto) {
     return this.dishesService.update(updateDishDto);
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number): { message: string } {
+  remove(@Param('id', ParseIntPipe) id: number) {
     return this.dishesService.remove(id);
   }
 

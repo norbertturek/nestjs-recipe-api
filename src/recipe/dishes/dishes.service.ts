@@ -1,68 +1,42 @@
-import {
-  Inject,
-  Injectable,
-  NotFoundException,
-  forwardRef,
-} from '@nestjs/common';
-import { ProductsService } from '../products/products.service';
-import { Dish } from './Dish';
-import { CreateDishDTO, UpdateDishDTO } from './dto/DishDTO';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { CreateDishDto } from './dto/create-dish.dto';
+import { UpdateDishDto } from './dto/update-dish.dto';
+import { Dish } from './entities/dish.entity';
 
 @Injectable()
 export class DishesService {
-  private trackId = 1;
-  private dishes: Dish[] = [
-    {
-      id: this.trackId++,
-      name: 'Overnight Oats',
-      description: 'Overnight oats with chia seeds',
-      servings: 2,
-      products: [],
-    },
-  ];
-
-  constructor(
-    @Inject(forwardRef(() => ProductsService))
-    private readonly productService: ProductsService,
-  ) {}
-
-  create(dish: CreateDishDTO): Dish {
-    const newDish = { id: this.trackId++, ...dish, products: [] };
-    this.dishes.push(newDish);
-    return newDish;
+  create(dish: CreateDishDto): Promise<Dish> {
+    const newDish = new Dish();
+    Object.assign(newDish, dish);
+    return newDish.save();
   }
 
-  findAll(): readonly Dish[] {
-    return this.dishes.map((d: Dish) => {
-      return {
-        ...d,
-        products: this.productService.getProductsForDish(d.id),
-      };
+  findAll(): Promise<readonly Dish[]> {
+    return Dish.find({
+      relations: ['products'],
     });
   }
 
-  findOne(dishId: number): Dish {
+  findOne(dishId: number): Promise<Dish> {
     return this.getOneById(dishId);
   }
 
-  getOneById(dishId: number): Dish {
-    const dish = this.dishes.find((d: Dish) => d.id === dishId);
+  async getOneById(dishId: number): Promise<Dish> {
+    const dish = await Dish.findOne({ where: { id: dishId } });
     if (!dish) {
       throw new NotFoundException(`Dish with id ${dishId} not found`);
     }
-    dish.products = this.productService.getProductsForDish(dishId);
     return dish;
   }
 
-  update(dish: UpdateDishDTO): Dish {
-    const dishToUpdate = this.getOneById(dish.id);
+  async update(dish: UpdateDishDto): Promise<Dish> {
+    const dishToUpdate = await this.getOneById(dish.id);
     Object.assign(dishToUpdate, dish);
-    return dishToUpdate;
+    return dishToUpdate.save();
   }
 
-  remove(dishId: number): { message: string } {
-    this.getOneById(dishId);
-    this.dishes = this.dishes.filter((d: Dish) => d.id !== dishId);
-    return { message: `Dish with id ${dishId} deleted` };
+  async remove(dishId: number): Promise<Dish> {
+    const dishToRemove = await this.getOneById(dishId);
+    return dishToRemove.remove();
   }
 }

@@ -1,7 +1,6 @@
-import { OmitType } from '@nestjs/mapped-types';
 import { IsNumber, IsString, IsOptional } from 'class-validator';
 
-export class UpdateDishDTO {
+export class UpdateDishDto {
   @IsNumber({}, { message: 'ID must be a number' })
   id: number;
 
@@ -15,5 +14,3 @@ export class UpdateDishDTO {
   @IsNumber({}, { message: 'Servings must be a number' })
   servings: number;
 }
-
-export class CreateDishDTO extends OmitType(UpdateDishDTO, ['id'] as const) {}

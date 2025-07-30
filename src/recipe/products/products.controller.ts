@@ -6,7 +6,7 @@ import {
   Param,
   ParseIntPipe,
   Post,
-  Put
+  Put,
 } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -14,7 +14,6 @@ import { ProductsService } from './products.service';
 
 @Controller('products')
 export class ProductsController {
-  // private productsService = new ProductsService();
   constructor(private readonly productsService: ProductsService) {}
 
   @Post()
