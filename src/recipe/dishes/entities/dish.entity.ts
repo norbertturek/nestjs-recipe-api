@@ -1,13 +1,16 @@
+import { Ingredient } from 'src/recipe/ingredients/ingredient.entity';
 import { Product } from 'src/recipe/products/entities/product.entity';
+import { User } from 'src/user/entities/user.entity';
 import {
   BaseEntity,
   Column,
   Entity,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity()
+@Entity('dish')
 export class Dish extends BaseEntity {
   @PrimaryGeneratedColumn()
   id?: number;
@@ -21,7 +24,11 @@ export class Dish extends BaseEntity {
   @Column({ type: 'decimal' })
   servings: number;
 
-  // one to many
-  @OneToMany(() => Product, (product: Product) => product.dish)
-  products: Product[];
+  @ManyToOne(() => User, (dish: User) => dish.dishes, { cascade: true })
+  user: User;
+
+  @OneToMany(() => Ingredient, (ingredient: Ingredient) => ingredient.dish, {
+    cascade: true,
+  })
+  ingredients: Ingredient[];
 }

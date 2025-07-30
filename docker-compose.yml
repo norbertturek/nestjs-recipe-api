@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres_recipe
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres_recipe
+      POSTGRES_PASSWORD: postgres_recipe
+      POSTGRES_DB: postgres_recipe
+      
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_recipe
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin

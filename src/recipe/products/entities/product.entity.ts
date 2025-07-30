@@ -1,13 +1,13 @@
-import { Dish } from 'src/recipe/dishes/entities/dish.entity';
+import { Ingredient } from 'src/recipe/ingredients/ingredient.entity';
 import {
   BaseEntity,
   Column,
   Entity,
-  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity()
+@Entity('product')
 export class Product extends BaseEntity {
   @PrimaryGeneratedColumn()
   id?: number;
@@ -18,9 +18,8 @@ export class Product extends BaseEntity {
   @Column({ type: 'varchar' })
   unit: 'kg' | 'g' | 'tsp' | 'sp' | 'pinch' | 'ml' | 'l' | 'item';
 
-  @Column({ type: 'decimal' })
-  amount: number;
-
-  @ManyToOne(() => Dish, (dish) => dish.products, { cascade: true })
-  dish: Dish;
+  @OneToMany(() => Ingredient, (ingredient: Ingredient) => ingredient.product, {
+    cascade: true,
+  })
+  ingredients: Ingredient[];
 }
